@@ -172,8 +172,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				InvalidateRect(hWnd, NULL, TRUE);
 				break;
 			case ID_METHUSELAHS_DIEHARD:
+				field.dieHard();
+				InvalidateRect(hWnd, NULL, TRUE);
+				break;
 			case ID_METHUSELAHS_R:
+				field.rPentomino();
+				InvalidateRect(hWnd, NULL, TRUE);
+				break;
 			case ID_STRUCTURES_GLIDERGUN:
+				field.gliderGun();
+				InvalidateRect(hWnd, NULL, TRUE);
+				break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -194,13 +203,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_TIMER:
     	field.create_new_gen();
+		InvalidateRect(hWnd, NULL, TRUE);
 		if(!field.check_life())
 		{
 			KillTimer(hWnd, TIMER_1);
 			started = false;
 			MessageBox(hWnd, L"The simulation is over!", L"Life ended...", MB_OK);
 		}
-    	InvalidateRect(hWnd, NULL, TRUE);
     	break;
 
 	case WM_GETMINMAXINFO:
