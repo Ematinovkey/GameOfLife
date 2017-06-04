@@ -7,24 +7,7 @@ using namespace  std;
 class World
 {
 	bool current_[40][40];
-	bool previous_[40][40];
 	bool next_[40][40];
-
-	bool check_equality()
-	{
-		for (int i = 0; i < 40; i++)
-			for (int j = 0; j < 40; j++)
-				if (current_[i][j] != previous_[i][j])
-					return false;
-		return true;
-	}
-
-	void save_previous()
-	{
-		for (int i = 0; i < 40; i++)
-			for (int j = 0; j < 40; j++)
-				previous_[i][j] = current_[i][j];
-	}
 
 	int count_alive_neighbours(int st_ind, int col_ind)
 	{
@@ -58,8 +41,10 @@ public:
 				next_[i][j] = false;
 			}
 	}
+	//Pre-loaded structures
 	void penta()
 	{
+		reset();
 		current_[19][21] = true;
 		current_[19][26] = true;
 		current_[21][21] = true;
@@ -73,7 +58,25 @@ public:
 		current_[20][27] = true;
 		current_[20][28] = true;
 	}
-
+	void blinker()
+	{
+		reset();
+		current_[20][21] = true;
+		current_[20][22] = true;
+		current_[20][23] = true;
+	}
+	void beacon()
+	{
+		reset();
+		current_[20][20] = true;
+		current_[20][21] = true;
+		current_[21][20] = true;
+		current_[21][21] = true;
+		current_[22][22] = true;
+		current_[22][23] = true;
+		current_[23][22] = true;
+		current_[23][23] = true;
+	}
 	void create_new_gen()
 	{
 		for (int i = 0; i < 40; i++)
@@ -97,7 +100,6 @@ public:
 				current_[i][j] = next_[i][j];
 			}
 	}
-
 	void set_cell_state1(int st_ind, int col_ind)
 	{
 		current_[st_ind][col_ind] = true;
@@ -121,7 +123,18 @@ public:
 				if (current_[i][j])
 					return true;
 		return false;
+
 	}
+
+	bool check_equality()
+	{
+		for (int i = 0; i < 40; i++)
+			for (int j = 0; j < 40; j++)
+				if (current_[i][j] != next_[i][j])
+					return false;
+		return true;
+	}
+
 };
 
 

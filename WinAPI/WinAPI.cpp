@@ -104,7 +104,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0,616, 619, nullptr, nullptr, hInstance, nullptr);
+      450, 150,616, 619, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -131,9 +131,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-	case WM_CREATE:
-		field.penta();
-		break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -162,17 +159,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				started = false;
 				InvalidateRect(hWnd, NULL, TRUE);
 				break;
+			case ID_OSCILLATORS_PENTA:
+				field.penta();
+				InvalidateRect(hWnd, NULL, TRUE);
+				break;
+			case ID_OSCILLATORS_BLINKER:
+				field.blinker();
+				InvalidateRect(hWnd, NULL, TRUE);
+				break;
+			case ID_OSCILLATORS_BEACON:
+				field.beacon();
+				InvalidateRect(hWnd, NULL, TRUE);
+				break;
+			case ID_METHUSELAHS_DIEHARD:
+			case ID_METHUSELAHS_R:
+			case ID_STRUCTURES_GLIDERGUN:
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
         }
         break;
-	case WM_TIMER:
-			field.create_new_gen();
-			InvalidateRect(hWnd, NULL, TRUE);
-			break;
+
 	case WM_LBUTTONDOWN:
-    	x = LOWORD(lParam);
+		x = LOWORD(lParam);
 		y = HIWORD(lParam);
 		if (!started)
 		{
@@ -182,7 +191,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				field.set_cell_state1(y / _y, x / _x);
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
-			break;
+		break;
+	case WM_TIMER:
+    	field.create_new_gen();
+		if(!field.check_life())
+		{
+			KillTimer(hWnd, TIMER_1);
+			started = false;
+			MessageBox(hWnd, L"The simulation is over!", L"Life ended...", MB_OK);
+		}
+    	InvalidateRect(hWnd, NULL, TRUE);
+    	break;
 
 	case WM_GETMINMAXINFO:
 	{

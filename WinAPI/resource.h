@@ -18,6 +18,14 @@
 #define ID_MENU_START                   32773
 #define ID_MENU_STOP                    32774
 #define ID_HELP_RULES                   32775
+#define ID_STRUCTURES_OSCILLATORS       32776
+#define ID_STRUCTURES_METHUSELAHS       32777
+#define ID_STRUCTURES_GLIDERGUN         32778
+#define ID_OSCILLATORS_PENTA            32779
+#define ID_OSCILLATORS_BLINKER          32780
+#define ID_OSCILLATORS_BEACON           32781
+#define ID_METHUSELAHS_DIEHARD          32782
+#define ID_METHUSELAHS_R                32783
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -26,7 +34,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        129
-#define _APS_NEXT_COMMAND_VALUE         32776
+#define _APS_NEXT_COMMAND_VALUE         32784
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
