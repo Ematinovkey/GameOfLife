@@ -97,7 +97,7 @@ public:
 		current_[20][19] = true;
 		current_[21][19] = true;
 	}
-void gliderGun()
+	void gliderGun()
 	{
 	reset();
 	current_[24][2] = true;
@@ -136,8 +136,9 @@ void gliderGun()
 	current_[23][36] = true;
 	current_[22][37] = true;
 	current_[23][37] = true;
-
 	}
+
+
 	void create_new_gen()
 	{
 		for (int i = 0; i < 40; i++)
@@ -169,6 +170,7 @@ void gliderGun()
 	void set_cell_state0(int st_ind, int col_ind)
 	{
 		current_[st_ind][col_ind] = false;
+		next_[st_ind][col_ind] = false;
 	}
 
 	int get_cell_state(int st_ind, int col_ind)
@@ -197,15 +199,3 @@ void gliderGun()
 	}
 
 };
-
-
-int main()
-{
-	World a;
-	do
-	{
-		system("cls");
-		a.create_new_gen();
-		Sleep(700);
-	} while (1 < 100);
-}
