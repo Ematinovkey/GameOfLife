@@ -22,6 +22,7 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    Rules(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -140,6 +141,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
+			case ID_HELP_RULES:
+				DialogBox(hInst, MAKEINTRESOURCE(IDD_RULES1), hWnd, About);
+				break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
@@ -190,16 +194,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
 
 	case WM_LBUTTONDOWN:
-		x = LOWORD(lParam);
-		y = HIWORD(lParam);
-		if (!started)
-		{
-			if (field.get_cell_state(y / _y, x / _x))
-				field.set_cell_state0(y / _y, x / _x);
-			else
-				field.set_cell_state1(y / _y, x / _x);
-		}
-		InvalidateRect(hWnd, NULL, TRUE);
+    	{
+			x = LOWORD(lParam);
+			y = HIWORD(lParam);
+			if (!started)
+			{
+				if (field.get_cell_state(y / _y, x / _x))
+					field.set_cell_state0(y / _y, x / _x);
+				else
+					field.set_cell_state1(y / _y, x / _x);
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
+    	}
 		break;
 	case WM_TIMER:
     	field.create_new_gen();
@@ -297,4 +303,23 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+// Message handler for rules box.
+INT_PTR CALLBACK Rules(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
 }
